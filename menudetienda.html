@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Menú | Café Aroma</title>
+    <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+<div id="modal-pedido" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;">
+    <div style="background-color: white; padding: 20px; border-radius: 8px; width: 80%; max-width: 500px;">
+        <h3>Confirmar Pedido</h3>
+        <div id="modal-pedido-detalle">
+            </div>
+        <p id="modal-pedido-total" style="font-weight: bold; text-align: right; margin-top: 10px;">Total: $0.00</p>
+        <div style="text-align: right; margin-top: 20px;">
+            <button id="modal-cerrar" style="padding: 10px 15px; border: 1px solid #ccc; border-radius: 5px; cursor: pointer; margin-right: 10px;">Cerrar</button>
+            <button id="modal-pagar-tarjeta" style="background-color: #007bff; color: white; padding: 10px 15px; border-radius: 5px; border: none; cursor: pointer; margin-right: 10px;">Pagar con Tarjeta</button>
+            <button id="modal-pagar-caja" style="background-color: #28a745; color: white; padding: 10px 15px; border-radius: 5px; border: none; cursor: pointer;">Pagar en Caja</button>
+        </div>
+    </div>
+</div>
+    <nav>
+        <div class="logo">☕ Café Aroma</div>
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="tiendafisica.html">Tienda Física</a></li>
+            <li><a href="pedidos.html">Pedidos</a></li>
+        </ul>
+    </nav>
+
+    <main id="menudetienda" class="seccion-blanca">
+        <div id="resumen-orden" style="margin-bottom: 20px; border: 1px solid #ddd; padding: 15px; border-radius: 5px;">
+    <h3>Tu Orden:</h3>
+    <ul id="lista-ordenada" style="list-style: none; padding-left: 0;">
+        <li id="mensaje-orden-vacia" style="display: block;">Aún no has añadido nada.</li>
+    </ul>
+    <p id="total-orden" style="font-weight: bold;">Total: $0.00</p>
+    <button id="realizar-pedido-final" style="background-color: #5e3f32; color: white; padding: 10px 15px; border-radius: 5px; border: none; cursor: pointer; margin-top: 10px;">Realizar Pedido</button>
+</div>
+            <h2>Nuestro Menú</h2>
+<section>
+    <h3>Café</h3>
+    <img src="https://img.icons8.com/plasticine/100/000000/coffee-to-go.png" alt="icono de café" style="max-width: 50px; height: auto; vertical-align: middle; margin-right: 10px;"/>
+    <article class="item">
+        <p class="flavor">French Vanilla</p><p class="price">3.00</p>
+        <button class="ordenar-item-btn" data-nombre="French Vanilla" data-precio="3.00">Ordenar</button>
+        <div class="confirmacion-pedido" style="display:none; color: green; font-size: 0.8em; margin-top: 5px;">Añadido</div>
+    </article>
+    <article class="item">
+        <p class="flavor">Caramel Macchiato</p><p class="price">3.75</p>
+        <button class="ordenar-item-btn" data-nombre="Caramel Macchiato" data-precio="3.75">Ordenar</button>
+        <div class="confirmacion-pedido" style="display:none; color: green; font-size: 0.8em; margin-top: 5px;">Añadido</div>
+    </article>
+    <article class="item">
+        <p class="flavor">Pumpkin Spice</p><p class="price">3.50</p>
+        <button class="ordenar-item-btn" data-nombre="Pumpkin Spice" data-precio="3.50">Ordenar</button>
+        <div class="confirmacion-pedido" style="display:none; color: green; font-size: 0.8em; margin-top: 5px;">Añadido</div>
+    </article>
+    <article class="item">
+        <p class="flavor">Hazelnut</p><p class="price">4.00</p>
+        <button class="ordenar-item-btn" data-nombre="Hazelnut" data-precio="4.00">Ordenar</button>
+        <div class="confirmacion-pedido" style="display:none; color: green; font-size: 0.8em; margin-top: 5px;">Añadido</div>
+    </article>
+    <article class="item">
+        <p class="flavor">Mocha</p><p class="price">4.50</p>
+        <button class="ordenar-item-btn" data-nombre="Mocha" data-precio="4.50">Ordenar</button>
+        <div class="confirmacion-pedido" style="display:none; color: green; font-size: 0.8em; margin-top: 5px;">Añadido</div>
+    </article>
+</section>
+<section>
+    <h3>Postres</h3>
+    <img src="https://img.icons8.com/plasticine/100/000000/cake.png" alt="icono de pastel" style="max-width: 50px; height: auto; vertical-align: middle; margin-right: 10px;"/>
+    <article class="item">
+        <p class="dessert">Donut</p><p class="price">1.50</p>
+        <button class="ordenar-item-btn" data-nombre="Donut" data-precio="1.50">Ordenar</button>
+        <div class="confirmacion-pedido" style="display:none; color: green; font-size: 0.8em; margin-top: 5px;">Añadido</div>
+    </article>
+    <article class="item">
+        <p class="dessert">Cherry Pie</p><p class="price">2.75</p>
+        <button class="ordenar-item-btn" data-nombre="Cherry Pie" data-precio="2.75">Ordenar</button>
+        <div class="confirmacion-pedido" style="display:none; color: green; font-size: 0.8em; margin-top: 5px;">Añadido</div>
+    </article>
+    <article class="item">
+        <p class="dessert">Cheesecake</p><p class="price">3.00</p>
+        <button class="ordenar-item-btn" data-nombre="Cheesecake" data-precio="3.00">Ordenar</button>
+        <div class="confirmacion-pedido" style="display:none; color: green; font-size: 0.8em; margin-top: 5px;">Añadido</div>
+    </article>
+    <article class="item">
+        <p class="dessert">Cinnamon Roll</p><p class="price">2.50</p>
+        <button class="ordenar-item-btn" data-nombre="Cinnamon Roll" data-precio="2.50">Ordenar</button>
+        <div class="confirmacion-pedido" style="display:none; color: green; font-size: 0.8em; margin-top: 5px;">Añadido</div>
+    </article>
+</section>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Café Aroma. Todos los derechos reservados.</p>
+        <p>📞 Teléfono: +56 9 1234 5678</p>
+        <p>✉️ Correo: contacto@cafearoma.cl</p>
+        <p>📍 Dirección: Av. Café 123, Santiago, Chile</p>
+        <p>
+            Síguenos:
+            <a href="https://www.instagram.com/cafearoma" target="_blank">Instagram</a> |
+            <a href="https://www.facebook.com/cafearoma" target="_blank">Facebook</a>
+        </p>
+    </footer>
+¡Claro! Aquí está el script corregido para que funcione con los botones "Pagar con Tarjeta" y "Pagar en Caja" en el modal:
+
+HTML
+
+¡Claro! Aquí está el script corregido con la función prompt para solicitar el número de tarjeta al hacer clic en "Pagar con Tarjeta":
+
+HTML
+
+¡Claro! Aquí está el script modificado para que al hacer clic en "Pagar con Tarjeta" se redirija a la página pagar_con_tarjeta.html:
+
+HTML
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const botonesOrdenar = document.querySelectorAll('.ordenar-item-btn');
+        const listaOrdenada = document.getElementById('lista-ordenada');
+        const mensajeOrdenVacia = document.getElementById('mensaje-orden-vacia');
+        const totalOrdenElement = document.getElementById('total-orden');
+        const realizarPedidoBtn = document.getElementById('realizar-pedido-final');
+        const modalPedido = document.getElementById('modal-pedido');
+        const modalPedidoDetalle = document.getElementById('modal-pedido-detalle');
+        const modalPedidoTotal = document.getElementById('modal-pedido-total');
+        const modalCerrar = document.getElementById('modal-cerrar');
+        const modalPagarTarjeta = document.getElementById('modal-pagar-tarjeta');
+        const modalPagarCaja = document.getElementById('modal-pagar-caja');
+        let totalOrden = 0;
+        const itemsEnOrden = {}; // { nombre: { precio: X, cantidad: Y } }
+
+        function actualizarResumenOrden() {
+            listaOrdenada.innerHTML = '';
+            let nuevoTotal = 0;
+            let ordenVacia = true;
+
+            for (const nombre in itemsEnOrden) {
+                if (itemsEnOrden.hasOwnProperty(nombre) && itemsEnOrden[nombre].cantidad > 0) {
+                    ordenVacia = false;
+                    const item = itemsEnOrden[nombre];
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                        ${nombre}
+                        <button class="cambiar-cantidad menos" data-nombre="${nombre}">-</button>
+                        <span>${item.cantidad}</span>
+                        <button class="cambiar-cantidad mas" data-nombre="${nombre}">+</button>
+                        - $${(item.precio * item.cantidad).toFixed(2)}
+                        <button class="eliminar-item" data-nombre="${nombre}">×</button>
+                    `;
+                    listaOrdenada.appendChild(listItem);
+                    nuevoTotal += item.precio * item.cantidad;
+                }
+            }
+
+            totalOrden = nuevoTotal;
+            totalOrdenElement.textContent = `Total: $${totalOrden.toFixed(2)}`;
+            mensajeOrdenVacia.style.display = ordenVacia ? 'block' : 'none';
+        }
+
+        botonesOrdenar.forEach(boton => {
+            boton.addEventListener('click', function() {
+                const nombreProducto = this.dataset.nombre;
+                const precioProducto = parseFloat(this.dataset.precio);
+                const confirmacionDiv = this.nextElementSibling;
+
+                if (itemsEnOrden[nombreProducto]) {
+                    itemsEnOrden[nombreProducto].cantidad++;
+                } else {
+                    itemsEnOrden[nombreProducto] = { precio: precioProducto, cantidad: 1 };
+                }
+
+                actualizarResumenOrden();
+
+                if (confirmacionDiv && confirmacionDiv.classList.contains('confirmacion-pedido')) {
+                    confirmacionDiv.style.display = 'inline';
+                    setTimeout(() => {
+                        confirmacionDiv.style.display = 'none';
+                    }, 1500);
+                }
+                console.log('Orden actual:', itemsEnOrden);
+            });
+        });
+
+        listaOrdenada.addEventListener('click', function(event) {
+            if (event.target.classList.contains('cambiar-cantidad')) {
+                const nombre = event.target.dataset.nombre;
+                if (itemsEnOrden[nombre]) {
+                    if (event.target.classList.contains('mas')) {
+                        itemsEnOrden[nombre].cantidad++;
+                    } else if (event.target.classList.contains('menos') && itemsEnOrden[nombre].cantidad > 1) {
+                        itemsEnOrden[nombre].cantidad--;
+                    }
+                    actualizarResumenOrden();
+                }
+            } else if (event.target.classList.contains('eliminar-item')) {
+                const nombre = event.target.dataset.nombre;
+                delete itemsEnOrden[nombre];
+                actualizarResumenOrden();
+            }
+        });
+
+        realizarPedidoBtn.addEventListener('click', function() {
+            let detallePedidoHTML = "<p>Pedido:</p><ul>";
+            let total = 0;
+            for (const nombre in itemsEnOrden) {
+                if (itemsEnOrden.hasOwnProperty(nombre) && itemsEnOrden[nombre].cantidad > 0) {
+                    const item = itemsEnOrden[nombre];
+                    const subtotal = item.precio * item.cantidad;
+                    detallePedidoHTML += `<li>${nombre} x${item.cantidad} - $${subtotal.toFixed(2)}</li>`;
+                    total += subtotal;
+                }
+            }
+            detallePedidoHTML += "</ul>";
+
+            modalPedidoDetalle.innerHTML = detallePedidoHTML;
+            modalPedidoTotal.textContent = `Total: $${total.toFixed(2)}`;
+            modalPedido.style.display = 'flex';
+        });
+
+        modalCerrar.addEventListener('click', function() {
+            modalPedido.style.display = 'none';
+        });
+
+        modalPagarTarjeta.addEventListener('click', function() {
+            window.location.href = 'pagar_con_tarjeta.html';
+        });
+
+        modalPagarCaja.addEventListener('click', function() {
+            alert(`Pedido registrado. Por favor, acércate a la caja para pagar $${totalOrden.toFixed(2)}.`);
+            itemsEnOrden = {};
+            actualizarResumenOrden();
+            modalPedido.style.display = 'none';
+        });
+
+        actualizarResumenOrden();
+    });
+</script>
+
+</body>
+</html>

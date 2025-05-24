@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagar con Tarjeta</title>
+    <style>
+        body { font-family: sans-serif; }
+        .container { width: 400px; margin: 50px auto; border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
+        h2 { text-align: center; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="number"] { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        .expiration { display: flex; gap: 10px; }
+        .expiration input { width: 50%; }
+        button { background-color: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 1em; width: 100%; }
+        button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Tarjeta de crédito o débito</h2>
+        <div class="form-group">
+            <label for="nombre">Nombre del titular</label>
+            <input type="text" id="nombre" placeholder="Como aparece en la tarjeta">
+        </div>
+        <div class="form-group">
+            <label for="numero">Número de tarjeta</label>
+            <input type="text" id="numero" placeholder="Número de tarjeta">
+        </div>
+        <div class="form-group expiration">
+            <div>
+                <label for="mes">Fecha de expiración (Mes)</label>
+                <input type="number" id="mes" placeholder="MM" min="1" max="12">
+            </div>
+            <div>
+                <label for="anio">Año</label>
+                <input type="number" id="anio" placeholder="AAAA">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="cvv">Código de seguridad</label>
+            <input type="number" id="cvv" placeholder="CVV">
+        </div>
+        <button onclick="simularPago()">Pagar</button>
+    </div>
+    <script>
+    function simularPago() {
+        alert('¡Pago simulado exitoso!');
+        window.location.href = 'menudetienda.html';
+    }
+</script>
+</body>
+</html>

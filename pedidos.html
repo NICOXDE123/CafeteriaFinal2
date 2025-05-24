@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos | Café Aroma</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script defer src="assets/js/pedidos.js"></script>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">☕ Café Aroma</div>
+
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="tiendafisica.html">Tienda Física</a></li>
+        </ul>
+    </nav>
+
+    <main id="pagina-pedidos" class="seccion-blanca">
+        <div class="contenedor">
+            <h2>Realiza tu Pedido</h2>
+            <p>Aquí puedes ver los artículos que has seleccionado:</p>
+
+            <div id="lista-de-pedidos">
+                <p id="mensaje-pedido-vacio">Aún no has añadido nada a tu pedido.</p>
+            </div>
+
+            <h3>Información Adicional</h3>
+            <form id="formulario-pedido">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required><br><br>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required><br><br>
+
+                <label for="detalles">Detalles Adicionales (opcional):</label><br>
+                <textarea id="detalles" name="detalles"></textarea><br><br>
+
+                <button type="submit">Enviar Pedido</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Café Aroma. Todos los derechos reservados.</p>
+        <p>📞 Teléfono: +56 9 1234 5678</p>
+        <p>✉️ Correo: contacto@cafearoma.cl</p>
+        <p>📍 Dirección: Av. Café 123, Santiago, Chile</p>
+        <p>
+            Síguenos:
+            <a href="https://www.instagram.com/cafearoma" target="_blank">Instagram</a> |
+            <a href="https://www.facebook.com/cafearoma" target="_blank">Facebook</a>
+        </p>
+    </footer>
+
+</body>
+</html>

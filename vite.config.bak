@@ -1,0 +1,32 @@
+import path from "path";
+import dfxJson from "../dfx.json";
+import fs from "fs";
+
+const isDev = process.env.DFX_NETWORK !== "ic";
+let canisterIds = {};
+if (isDev) {
+  const file = ".dfx/local/canister_ids.json";
+  canisterIds = JSON.parse(fs.readFileSync(file).toString());
+}
+
+const aliases = {
+  "canisters/cafeteria": path.resolve(
+    __dirname,
+    "../.dfx/local/canisters/cafeteria/index.js"
+  ),
+  // ...otros aliases
+};
+
+export default defineConfig({
+  // ...
+  resolve: { alias: aliases },
+  define: {
+    "process.env.CAFETERIA_CANISTER_ID": JSON.stringify(
+      isDev
+        ? canisterIds.cafeteria.local
+        : canisterIds.cafeteria.ic
+    ),
+    "process.env.NODE_ENV": JSON.stringify(isDev ? "development" : "production"),
+  },
+  // ...
+});

@@ -1,0 +1,53 @@
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path from "path";
+import fs from "fs";
+import dfxJson from "../dfx.json";
+
+const isDev = process.env.DFX_NETWORK !== "ic";
+// Cargar IDs de canister
+let canisterIds = {};
+try {
+  const file = isDev
+    ? ".dfx/local/canister_ids.json"
+    : "canister_ids.json";
+  canisterIds = JSON.parse(fs.readFileSync(file));
+} catch (e) {
+  console.warn("⚠️  Ejecuta `dfx deploy` antes de levantar el dev server");
+}
+
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    alias: {
+      // Alias para importar tu actor Motoko
+      "canisters/cafeteria":
+        path.resolve(
+          __dirname,
+          "../.dfx",
+          isDev ? "local" : "ic",
+          "canisters",
+          "cafeteria",
+          "index.js"
+        )
+    }
+  },
+  define: {
+    // Inyecta la env var para poder usarla en React
+    "process.env.CAFETERIA_CANISTER_ID": JSON.stringify(
+      isDev
+        ? canisterIds.cafeteria.local
+        : canisterIds.cafeteria.ic
+    )
+  },
+  server: {
+    fs: { allow: [".."] },
+    proxy: {
+      "/api": {
+        target: `http://127.0.0.1:${dfxJson.networks.local.bind.split(":")[1]}`,
+        changeOrigin: true,
+        rewrite: (p) => p.replace(/^\/api/, "/api"),
+      },
+    },
+  },
+});

@@ -1,0 +1,24 @@
+/* frontend/src/components/Navbar.css */
+.navbar {
+    background: #5e3f32;
+    padding: 0.5rem 1rem;
+  }
+  .nav-list {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-list a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  .nav-list a.active {
+    border-bottom: 2px solid #ffd700;
+  }
+  .nav-list a:hover {
+    opacity: 0.8;
+  }
+  

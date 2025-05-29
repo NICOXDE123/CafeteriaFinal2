@@ -1,0 +1,31 @@
+{
+  "replica_rev": "579b8ba3a31341f354f4ddb3d60ac44548a91bc2",
+  "effective_canister_id": "uqqxf-5h777-77774-qaaaa-cai",
+  "type": "pocket_ic",
+  "config": {
+    "http_handler": {
+      "port": null,
+      "write_port_to": "/Users/nahumvelazquez/CafeteriaFinal2/CafeteriaFinal2/.dfx/network/local/replica-configuration/replica-1.port"
+    },
+    "state_manager": {
+      "state_root": "/Users/nahumvelazquez/CafeteriaFinal2/CafeteriaFinal2/.dfx/network/local/state/replicated_state"
+    },
+    "crypto": {
+      "crypto_root": "/Users/nahumvelazquez/CafeteriaFinal2/CafeteriaFinal2/.dfx/network/local/state/crypto_store"
+    },
+    "artifact_pool": {
+      "consensus_pool_path": "/Users/nahumvelazquez/CafeteriaFinal2/CafeteriaFinal2/.dfx/network/local/state/consensus_pool"
+    },
+    "subnet_type": "application",
+    "btc_adapter": {
+      "enabled": false,
+      "socket_path": null
+    },
+    "canister_http_adapter": {
+      "enabled": true,
+      "socket_path": "/var/folders/26/vknn2rpd1lv6k58fwt00_lgm0000gn/T/ic-https-outcalls-adapter-socket.89754.1748483236"
+    },
+    "log_level": "error",
+    "artificial_delay": 600
+  }
+}

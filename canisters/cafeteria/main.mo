@@ -1,49 +1,46 @@
-import Debug "mo:base/Debug";
-import Text "mo:base/Text";
-import Iter "mo:base/Iter";
-import HashMap "mo:base/HashMap";
-import Nat "mo:base/Nat";
+// canisters/cafeteria/main.mo
 
-actor cafeteria {
-  // Tipo para un ítem de pedido: id, nombre, cantidad, precio (en centavos)
+import Debug "mo:base/Debug";
+import Nat   "mo:base/Nat";
+import Text  "mo:base/Text";
+import Array "mo:base/Array";
+
+actor Cafeteria {
+  // Tipo de un pedido
   public type Item = {
-    id: Nat;
-    nombre: Text;
+    id      : Nat;
+    nombre  : Text;
     cantidad: Nat;
-    precio: Nat;
+    precio  : Nat;
   };
 
-  // Almacenamiento en memoria: HashMap de id a Item
-  let pedidos = HashMap.HashMap<Nat, Item>(0, Nat.equal, Nat.hash);
-  var nextId: Nat = 1;
+  // Lista en memoria de pedidos
+  var pedidos : [Item] = [];
+  var nextId  : Nat     = 1;
 
-  // Agrega un pedido y retorna su id
+  // Agrega un pedido y devuelve su id
   public func agregarPedido(
-    nombre: Text,
+    nombre  : Text,
     cantidad: Nat,
-    precio: Nat
+    precio  : Nat
   ) : async Nat {
-    let id = nextId;
-    nextId += 1;
-    let item : Item = { id; nombre; cantidad; precio };
-    pedidos.put(id, item);
-    Debug.print("Pedido agregado: " # Text.fromNat(id));
+    let id   = nextId;
+    nextId  += 1;
+    let itm  : Item = { id; nombre; cantidad; precio };
+    // concatenamos el array existente con uno nuevo de un solo elemento
+    pedidos := Array.append(pedidos, [ itm ]);
+    Debug.print("Pedido agregado: " # Nat.toText(id));
     return id;
   };
 
-  // Listar todos los pedidos
+  // Devuelve todos los pedidos
   public query func listarPedidos() : async [Item] {
-    let it = pedidos.entries();
-    let itemsIter = Iter.map(it, func(entry) { entry.1 });
-    return Iter.toArray(itemsIter);
+    return pedidos;
   };
 
-  // Limpiar todos los pedidos (elimina cada clave)
+  // Elimina todos los pedidos
   public func limpiarPedidos() : async Bool {
-    let keys = Iter.toArray(pedidos.keys());
-    for (key in keys) {
-      ignore pedidos.remove(key);
-    };
+    pedidos := [];            // reasignamos lista vacía
     Debug.print("Pedidos limpiados");
     return true;
   };

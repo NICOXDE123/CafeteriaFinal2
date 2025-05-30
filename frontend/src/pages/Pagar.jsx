@@ -11,7 +11,6 @@ export default function Pagar() {
 
   const simularPago = () => {
     alert('¡Pago simulado exitoso!');
-    // vuelve al menú
     window.location.href = '/menu';
   };
 
@@ -25,52 +24,54 @@ export default function Pagar() {
         </ul>
       </nav>
 
-      <main className="contenedor">
+      <main className="contenedor formulario">
         <h2>Tarjeta de crédito o débito</h2>
-        <div className="formulario">
-          <label>Nombre del titular</label>
-          <input
-            type="text"
-            placeholder="Como aparece en la tarjeta"
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
-          />
-          <label>Número de tarjeta</label>
-          <input
-            type="text"
-            placeholder="Número de tarjeta"
-            value={numero}
-            onChange={(e) => setNumero(e.target.value)}
-          />
-          <div className="form-group expiration">
-            <div>
-              <label>Mes (MM)</label>
-              <input
-                type="number"
-                min="1"
-                max="12"
-                value={mes}
-                onChange={(e) => setMes(e.target.value)}
-              />
-            </div>
-            <div>
-              <label>Año (AAAA)</label>
-              <input
-                type="number"
-                value={anio}
-                onChange={(e) => setAnio(e.target.value)}
-              />
-            </div>
+        <label>Nombre del titular</label>
+        <input
+          type="text"
+          placeholder="Como aparece en la tarjeta"
+          value={nombre}
+          onChange={e => setNombre(e.target.value)}
+        />
+
+        <label>Número de tarjeta</label>
+        <input
+          type="text"
+          placeholder="Número de tarjeta"
+          value={numero}
+          onChange={e => setNumero(e.target.value)}
+        />
+
+        <div className="form-group expiration">
+          <div>
+            <label>Mes (MM)</label>
+            <input
+              type="number"
+              min="1"
+              max="12"
+              value={mes}
+              onChange={e => setMes(e.target.value)}
+            />
           </div>
-          <label>CVV</label>
-          <input
-            type="number"
-            placeholder="CVV"
-            value={cvv}
-            onChange={(e) => setCvv(e.target.value)}
-          />
-          <button onClick={simularPago}>Pagar</button>
+          <div>
+            <label>Año (AAAA)</label>
+            <input
+              type="number"
+              value={anio}
+              onChange={e => setAnio(e.target.value)}
+            />
+          </div>
         </div>
+
+        <label>CVV</label>
+        <input
+          type="number"
+          placeholder="CVV"
+          value={cvv}
+          onChange={e => setCvv(e.target.value)}
+        />
+
+        <button onClick={simularPago}>Pagar</button>
       </main>
 
       <footer>

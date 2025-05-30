@@ -1,405 +1,276 @@
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
+/*───────────────────────────────────────────────────────────────────────────
+  VARIABLES Y RESET
+────────────────────────────────────────────────────────────────────────────*/
+:root {
+  --color-primary: #5e3f32;
+  --color-secondary: #4b2e2e;
+  --color-light-bg: #fdfdfd;
+  --color-alt-bg: #f6f2ee;
+  --color-text: #333333;
+  --color-white: #ffffff;
+  --font-main: 'Segoe UI', sans-serif;
+  --transition-fast: 0.2s ease-in-out;
 }
 
-/* Navegación */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-main);
+  color: var(--color-text);
+  background-color: var(--color-light-bg);
+  line-height: 1.6;
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  NAVEGACIÓN
+────────────────────────────────────────────────────────────────────────────*/
 nav {
-  background-color: #fff;
-  padding: 15px 30px;
+  background-color: var(--color-white);
+  padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   position: sticky;
   top: 0;
   z-index: 100;
 }
 
-nav .logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #4b2e2e;
-}
-
+.nav-list,
 nav ul {
   list-style: none;
   display: flex;
-  gap: 25px;
+  gap: 1.5rem;
   margin: 0;
   padding: 0;
 }
 
+.nav-list a,
 nav ul li a {
   text-decoration: none;
-  color: #4b2e2e;
+  color: var(--color-secondary);
   font-weight: 500;
+  transition: color var(--transition-fast);
 }
 
-.ordenar-btn {
-  background-color: #5e3f32;
-  color: white;
-  padding: 10px 16px;
+.nav-list a:hover,
+nav ul li a:hover,
+.nav-list .active {
+  color: var(--color-primary);
+}
+
+.navbar .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--color-secondary);
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  BOTONES
+────────────────────────────────────────────────────────────────────────────*/
+button,
+.ordenar-btn,
+.producto-card .button {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  padding: 0.6rem 1rem;
+  border: none;
   border-radius: 5px;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
   text-decoration: none;
+  font-size: 0.9rem;
 }
 
-/* Hero */
+button:hover,
+.ordenar-btn:hover,
+.producto-card .button:hover {
+  background-color: var(--color-secondary);
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  HERO / PÁGINA DE INICIO
+────────────────────────────────────────────────────────────────────────────*/
 .hero {
-  background-image: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1950&q=80');
-  background-size: cover;
-  background-position: center;
-  color: white;
-  text-align: left;
-  padding: 120px 30px;
   position: relative;
+  background: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+  color: var(--color-white);
+  text-align: left;
+  padding: 8rem 2rem;
 }
 
 .hero::before {
   content: "";
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
+  inset: 0;
   background-color: rgba(0,0,0,0.4);
-}
-
-.hero-content {
-  position: relative;
-  max-width: 600px;
 }
 
 .hero h1 {
   font-size: 3rem;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
 }
 
-.hero p {
-  font-size: 1.2rem;
-  margin-bottom: 30px;
+.hero nav {
+  position: relative;
+  z-index: 1;
 }
 
-.hero button {
-  padding: 12px 20px;
-  background-color: #5e3f32;
-  color: white;
-  border: none;
-  font-size: 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-/* Secciones */
+/*───────────────────────────────────────────────────────────────────────────
+  SECCIONES GENERALES
+────────────────────────────────────────────────────────────────────────────*/
 .seccion-blanca {
-  background-color: #fdfdfd;
-  padding: 60px 20px;
+  background-color: var(--color-light-bg);
+  padding: 4rem 2rem;
 }
 
 .seccion-crema {
-  background-color: #f6f2ee;
-  padding: 60px 20px;
+  background-color: var(--color-alt-bg);
+  padding: 4rem 2rem;
 }
 
 .contenedor {
   max-width: 1000px;
-  margin: auto;
+  margin: 0 auto;
 }
 
 h2 {
   font-size: 2.5rem;
-  color: #4b2e2e;
+  color: var(--color-secondary);
+  margin-bottom: 1rem;
 }
 
-/* Formulario */
+/*───────────────────────────────────────────────────────────────────────────
+  FORMULARIOS
+────────────────────────────────────────────────────────────────────────────*/
 .formulario {
-  margin-top: 30px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 1rem;
   max-width: 600px;
+  margin: 2rem auto;
+}
+
+.formulario label {
+  font-weight: 500;
 }
 
 .formulario input,
 .formulario textarea {
-  padding: 10px;
+  padding: 0.75rem;
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 
 .formulario button {
-  background-color: #5e3f32;
-  color: white;
-  border: none;
-  padding: 12px;
-  font-size: 1rem;
+  align-self: flex-start;
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  MENÚ TIENDA
+────────────────────────────────────────────────────────────────────────────*/
+#menudetienda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.resumen-orden {
+  flex: 1 1 300px;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+
+.resumen-orden h3 {
+  margin-top: 0;
+  color: var(--color-primary);
+  border-bottom: 2px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+.resumen-orden ul {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.resumen-orden li {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.resumen-orden button {
+  padding: 0.25rem 0.5rem;
+}
+
+#menudetienda main + section {
+  flex: 2 1 600px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  border-bottom: 1px dotted #eee;
+  transition: background-color var(--transition-fast);
+}
+
+.item:hover {
+  background-color: #f9f9f9;
   border-radius: 5px;
-  cursor: pointer;
 }
 
-/* Footer */
-footer {
-  background-color: #4b2e2e;
-  color: white;
-  text-align: center;
-  padding: 20px;
-  margin-top: 60px;
-}
-/* ... tu CSS anterior ... */
-
-/* Estilos para el menú */
-/* ... otros estilos ... */
-
-/* Estilos específicos para la página del menú */
-#menudetienda main .contenedor {
-    padding-top: 30px;
-    padding-bottom: 30px;
+.flavor,
+.dessert {
+  flex-grow: 1;
+  margin-right: 1rem;
+  font-weight: bold;
+  color: var(--color-primary);
 }
 
-#menudetienda h3 {
-    font-size: 1.8rem;
-    color: #4b2e2e;
-    margin-top: 20px;
-    margin-bottom: 15px;
-    border-bottom: 2px solid #d8d8d8;
-    padding-bottom: 8px;
+.price {
+  margin-right: 1rem;
+  font-weight: bold;
+  color: var(--color-primary);
 }
 
-#menudetienda .item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* Esta línea es importante para la alineación vertical */
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px dotted #eee;
-    padding-right: 10px;
-}
-
-#menudetienda .item:hover {
-    background-color: #f9f9f9;
-    border-radius: 5px;
-}
-
-#menudetienda .flavor,
-#menudetienda .dessert {
-    flex-grow: 1;
-    text-align: left;
-    padding-right: 15px;
-    font-size: 1.1rem;
-    color: #5e3f32;
-    font-weight: bold;
-    padding-top: 5px;
-    padding-bottom: 5px;
-}
-
-#menudetienda .price {
-    font-weight: bold;
-    color: #5e3f32;
-    font-size: 1.1rem;
-    margin-left: auto;
-    margin-right: 15px;
-}
-
-.ordenar-item-btn {
-    background-color: #5e3f32;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 5px;
-    font-size: 0.9rem;
-    transition: background-color 0.3s ease;
-    border: none; /* Asegúrate de no tener borde */
-    cursor: pointer;
-}
-
-.ordenar-item-btn:hover {
-    background-color: #4b2e2e;
-}
-
-#menudetienda img {
-    max-width: 60px;
-    height: auto;
-    vertical-align: middle;
-    margin-right: 15px;
-}
-
-#menudetienda section {
-    margin-bottom: 40px;
-}
-#resumen-orden {
-    margin-bottom: 20px;
-    border: 1px solid #d8d8d8;
-    padding: 15px;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-}
-
-#resumen-orden h3 {
-    margin-top: 0;
-    margin-bottom: 15px;
-    color: #5e3f32;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 8px;
-}
-
-#lista-ordenada li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* Espacio entre nombre y controles */
-    margin-bottom: 10px;
-    padding-bottom: 8px;
-    border-bottom: 1px dotted #eee;
-    font-size: 1em;
-    color: #333;
-}
-
-#lista-ordenada li:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-    margin-bottom: 0;
-}
-
-.cantidad-control {
-    display: flex;
-    align-items: center;
-}
-
-.cambiar-cantidad {
-    background-color: #e9ecef;
-    color: #495057;
-    border: 1px solid #ced4da;
-    padding: 0.25rem 0.5rem;
-    margin: 0 0.25rem;
-    border-radius: 0.25rem;
-    cursor: pointer;
-    font-size: 0.8em;
-    line-height: 1.5;
-    min-width: 2em; /* Asegura un tamaño mínimo */
-    text-align: center;
-}
-
-.cambiar-cantidad:hover {
-    background-color: #dee2e6;
-}
-
-.eliminar-item {
-    background-color: transparent;
-    color: #dc3545;
-    border: none;
-    padding: 0.25rem;
-    margin-left: 10px;
-    cursor: pointer;
-    font-size: 1.2em;
-    line-height: 1;
-}
-
-.eliminar-item:hover {
-    color: #c82333;
-}
-
-#lista-ordenada li span.cantidad {
-    min-width: 1.5em;
-    text-align: center;
-    margin: 0 0.5rem;
-}
-
-#lista-ordenada li .precio-item {
-    font-weight: bold;
-    margin-left: auto;
-}
-
-#resumen-orden #total-orden {
-    padding-top: 10px;
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #5e3f32;
-    text-align: right;
-}
-
-#resumen-orden #realizar-pedido-final {
-    background-color: #5e3f32;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    margin-top: 15px;
-    width: 100%; /* Ancho completo para destacar */
-    font-size: 1em;
-    transition: background-color 0.3s ease;
-}
-
-#resumen-orden #realizar-pedido-final:hover {
-    background-color: #4b2e2e;
-}
-#resumen-orden {
-    margin-bottom: 20px;
-    border: 1px solid #d8d8d8;
-    padding: 15px;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    max-width: 400px; /* Ajusta este valor al ancho que prefieras */
-}
-.pagina-titulo {
-    text-align: center;
-    padding: 20px 0;
-    background-color: #f8f8f8; /* Un fondo claro */
-    margin-bottom: 20px;
-}
-
-.pagina-titulo h1 {
-    color: #5e3f32; /* El color de tu tema */
-    font-size: 2.5em;
-    margin: 0;
-}
-
-/* Puede que ya tengas estos estilos, pero por si acaso */
-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    gap: 20px;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: #333;
-}
+/*───────────────────────────────────────────────────────────────────────────
+  CATÁLOGO DE PRODUCTOS
+────────────────────────────────────────────────────────────────────────────*/
 .categoria-productos {
-  padding: 60px 20px;
-  background-color: #f6f2ee;
+  background-color: var(--color-alt-bg);
+  padding: 4rem 2rem;
 }
 
 .categoria-productos h3 {
-  font-size: 2rem;
-  color: #4b2e2e;
-  margin-bottom: 30px;
   text-align: center;
+  margin-bottom: 2rem;
 }
 
 .productos-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 25px;
+  gap: 1.5rem;
   max-width: 1000px;
-  margin: auto;
-}
-
-.producto-card img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: auto;
-  border-radius: 8px;
-  transition: transform 0.3s ease;
+  margin: 0 auto;
 }
 
 .producto-card {
-  background-color: #ffffff;
+  background-color: var(--color-white);
   border: 1px solid #ddd;
   border-radius: 12px;
-  padding: 15px;
-  text-align: center;
-  transition: box-shadow 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  overflow: hidden;
+  transition: box-shadow var(--transition-fast);
 }
 
 .producto-card:hover {
@@ -408,84 +279,104 @@ nav ul li a {
 
 .producto-card img {
   width: 100%;
-  max-height: 180px;
-  object-fit: contain;
-  border-radius: 8px;
-  transition: transform 0.3s ease;
-}
-
-.producto-card img:hover {
-  transform: scale(1.08);
+  height: 180px;
+  object-fit: cover;
 }
 
 .producto-card h4 {
-  font-size: 1.1rem;
-  margin: 10px 0 5px;
-  color: #5e3f32;
+  margin: 1rem;
+  color: var(--color-primary);
 }
 
 .producto-card .precio {
+  margin: 0 1rem 1rem;
   font-weight: bold;
-  color: #4b2e2e;
-  margin-bottom: 15px;
-  font-size: 1.1rem;
 }
 
 .producto-card .button {
-  display: inline-block;
-  background-color: #5e3f32;
-  color: #fff;
-  padding: 10px 16px;
-  border-radius: 6px;
-  text-decoration: none;
-  font-size: 0.95rem;
-  transition: background-color 0.3s ease;
+  margin: 0 1rem 1rem;
 }
 
-.producto-card .button:hover {
-  background-color: #3d2720;
-}
-/* Estilo del fondo oscuro modal */
+/*───────────────────────────────────────────────────────────────────────────
+  MODAL DE IMAGEN EN TIENDA FÍSICA
+────────────────────────────────────────────────────────────────────────────*/
 .imagen-pequena {
-  width: 300px;
-  cursor: pointer;
-  transition: 0.3s;
-  border-radius: 8px;
+  width: 100%;
+  max-width: 300px;
+  margin: 1rem auto;
   display: block;
-  margin: 20px auto; /* centra imagen pequeña */
+  cursor: pointer;
 }
 
 .modal {
   display: none;
   position: fixed;
-  z-index: 999;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.9);
-  text-align: center;
-  padding-top: 50px;
+  inset: 0;
+  background-color: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .modal-contenido {
   max-width: 80%;
-  max-height: 80vh;
-  border-radius: 10px;
-  box-shadow: 0 0 30px rgba(255,255,255,0.3);
+  max-height: 80%;
+  border-radius: 8px;
 }
 
 .cerrar {
   position: absolute;
-  top: 20px;
-  right: 30px;
-  color: white;
-  font-size: 40px;
-  font-weight: bold;
+  top: 1rem;
+  right: 1rem;
+  font-size: 2rem;
+  color: var(--color-white);
   cursor: pointer;
-  z-index: 1000;
 }
 
-.cerrar:hover {
-  color: #ff0000;
+/*───────────────────────────────────────────────────────────────────────────
+  TABLAS DE PEDIDOS
+────────────────────────────────────────────────────────────────────────────*/
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+thead th {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  padding: 0.75rem;
+  text-align: left;
+}
+
+tbody td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #eee;
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  FOOTER
+────────────────────────────────────────────────────────────────────────────*/
+footer {
+  background-color: var(--color-secondary);
+  color: var(--color-white);
+  text-align: center;
+  padding: 2rem;
+  margin-top: 3rem;
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  RESPONSIVE
+────────────────────────────────────────────────────────────────────────────*/
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .resumen-orden {
+    order: 2;
+  }
+  #menudetienda main + section {
+    order: 1;
+  }
 }

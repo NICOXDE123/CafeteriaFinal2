@@ -24,7 +24,7 @@ export default function TiendaFisica() {
           {/* … tus tarjetas de producto … */}
         </div>
       </section>
-      {/* … más secciones … */}
+      {/* … más secciones si las tienes … */}
 
       <footer>
         <p>© 2025 Café Aroma. Todos los derechos reservados.</p>

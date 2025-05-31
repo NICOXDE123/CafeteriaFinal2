@@ -2,11 +2,12 @@
   VARIABLES Y RESET
 ────────────────────────────────────────────────────────────────────────────*/
 :root {
-  --color-primary: #5e3f32;
-  --color-secondary: #4b2e2e;
-  --color-light-bg: #fdfdfd;
-  --color-alt-bg: #f6f2ee;
-  --color-text: #333333;
+  --color-primary: #4b2720;   /* Café muy oscuro (intenso) */
+  --color-secondary: #a67c52; /* Tonos crema/café claro */
+  --color-tertiary: #7d5130;  /* Café medio para interacciones */
+  --color-light-bg: #f2ede7;  /* Crema muy suave */
+  --color-alt-bg: #fffaf5;    /* Crema extra suave */
+  --color-text: #2b1d17;      /* Texto casi negro, con matiz café */
   --color-white: #ffffff;
   --font-main: 'Segoe UI', sans-serif;
   --transition-fast: 0.2s ease-in-out;
@@ -16,65 +17,159 @@
 *::before,
 *::after {
   box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: var(--font-main);
-  color: var(--color-text);
-  background-color: var(--color-light-bg);
-  line-height: 1.6;
-}
-
-/*───────────────────────────────────────────────────────────────────────────
-  NAVEGACIÓN
-────────────────────────────────────────────────────────────────────────────*/
-nav {
-  background-color: var(--color-white);
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.nav-list,
-nav ul {
-  list-style: none;
-  display: flex;
-  gap: 1.5rem;
   margin: 0;
   padding: 0;
 }
 
-.nav-list a,
-nav ul li a {
-  text-decoration: none;
-  color: var(--color-secondary);
-  font-weight: 500;
-  transition: color var(--transition-fast);
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-light-bg);
+  font-family: var(--font-main);
+  color: var(--color-text);
+  scroll-behavior: smooth;
+  overflow-x: hidden; /* Evita barras horizontales */
 }
 
-.nav-list a:hover,
-nav ul li a:hover,
-.nav-list .active {
+/*───────────────────────────────────────────────────────────────────────────
+  0) TRANSICIÓN GLOBAL DE PÁGINA (FADE‐IN)
+────────────────────────────────────────────────────────────────────────────*/
+body.page-fade-in {
+  animation: pageFadeIn 1.2s ease-out both;
+}
+
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  HEADER / BANNER DE DESCUENTOS (SE MANTIENE VISIBLE Y ENCIMA DEL NAV)
+────────────────────────────────────────────────────────────────────────────*/
+.header-banner,
+.discount-note {
+  background-color: #f9f4ef;
+  border-left: 4px solid var(--color-primary);
+  padding: 12px 20px;
+  margin: 0;                 /* Sin margin-bottom para no cortarlo */
+  position: relative;
+  z-index: 200;              /* Z‐index mayor que el nav */
+}
+
+.header-banner strong,
+.discount-note strong {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-secondary);
+}
+
+.header-banner ul,
+.discount-note ul {
+  list-style: disc inside;
+  margin: 0.5rem 0 0 1rem;
+  padding-left: 0;
+}
+
+.combo-note {
+  margin-bottom: 0.25rem;
+  font-weight: 500;
   color: var(--color-primary);
 }
 
-.navbar .logo {
+.combo-sublist {
+  list-style-type: circle;
+  margin-top: 0.25rem;
+  margin-left: 1.5rem;
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  NAVEGACIÓN (BARRA MODERNA – LINKS SIEMPRE VISIBLES)
+────────────────────────────────────────────────────────────────────────────*/
+nav.navbar,
+nav.tienda-navbar {
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 0.75rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+  position: sticky;
+  top: 0;
+  z-index: 150;   /* Menor que header-banner pero encima del contenido */
+}
+
+/* Logo */
+.navbar .logo,
+.tienda-navbar .logo {
   font-size: 1.5rem;
   font-weight: bold;
   color: var(--color-secondary);
 }
 
+/* Lista de enlaces */
+.nav-list,
+.tienda-navbar .nav-list {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-list li,
+.tienda-navbar .nav-list li {
+  position: relative;
+}
+
+/* Enlaces con color sólido */
+.nav-list .nav-link,
+.nav-list a,
+.tienda-navbar .nav-link {
+  text-decoration: none;
+  color: var(--color-secondary) !important;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+/* Hover y estado activo */
+.nav-list .nav-link:hover,
+.nav-list .nav-link.active,
+.tienda-navbar .nav-link:hover,
+.tienda-navbar .nav-link.active {
+  color: var(--color-primary) !important;
+  transform: translateY(-2px);
+}
+
 /*───────────────────────────────────────────────────────────────────────────
-  BOTONES
+  CAMPO DE BÚSQUEDA EN EL NAV
+────────────────────────────────────────────────────────────────────────────*/
+.nav-search {
+  flex: 1;
+  margin: 0 2rem;
+  max-width: 300px;
+}
+
+.nav-search input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.nav-search input:focus {
+  border-color: var(--color-primary);
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  BOTONES (Carrito, Añadir al Carrito, etc.)
 ────────────────────────────────────────────────────────────────────────────*/
 button,
 .ordenar-btn,
+.btn-carrito,
+.btn-agregar,
 .producto-card .button {
   background-color: var(--color-primary);
   color: var(--color-white);
@@ -82,51 +177,33 @@ button,
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color var(--transition-fast);
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
   text-decoration: none;
   font-size: 0.9rem;
 }
 
 button:hover,
 .ordenar-btn:hover,
+.btn-carrito:hover,
+.btn-agregar:hover,
 .producto-card .button:hover {
   background-color: var(--color-secondary);
+  transform: translateY(-1px);
 }
 
 /*───────────────────────────────────────────────────────────────────────────
-  HERO / PÁGINA DE INICIO
+  SECCIONES GENERALES (seccion-blanca / seccion-crema)
 ────────────────────────────────────────────────────────────────────────────*/
-.hero {
-  position: relative;
-  background: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
-  color: var(--color-white);
-  text-align: left;
-  padding: 8rem 2rem;
-}
-
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-color: rgba(0,0,0,0.4);
-}
-
-.hero h1 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-}
-
-.hero nav {
-  position: relative;
-  z-index: 1;
-}
-
-/*───────────────────────────────────────────────────────────────────────────
-  SECCIONES GENERALES
-────────────────────────────────────────────────────────────────────────────*/
+/* 
+   Ajuste aquí: usamos padding-top en lugar de margen para que el contenido
+   comience por debajo del header-banner y nav sticky.
+   La suma aproximada: header-banner (~50px) + nav (~70px) = ~120px. 
+   Ajustar si cambia la altura real.
+*/
 .seccion-blanca {
   background-color: var(--color-light-bg);
   padding: 4rem 2rem;
+  padding-top: calc(4rem + 120px);
 }
 
 .seccion-crema {
@@ -146,115 +223,397 @@ h2 {
 }
 
 /*───────────────────────────────────────────────────────────────────────────
-  FORMULARIOS
+  HERO ESTÁTICO (Home)
 ────────────────────────────────────────────────────────────────────────────*/
-.formulario {
+.hero-home-static {
+  position: relative;
+  height: 80vh;
+  background: url('/images/fondo.png') center/cover no-repeat;
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  max-width: 600px;
-  margin: 2rem auto;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
-.formulario label {
+/* Overlay semitransparente para contraste */
+.hero-overlay-static {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(43, 27, 17, 0.65);
+  z-index: 1;
+}
+
+/* Contenido centrado por encima del overlay */
+.hero-content-static {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 800px;
+  padding: 0 1rem;
+}
+
+/* Tipografía del título y subtítulo */
+.hero-title-static {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 3.5rem;
+  color: #f6f2ee;
+  letter-spacing: 2px;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+}
+
+.hero-subtitle-static {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1.25rem;
+  color: #f0e7de;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+/* Botones hero con estilo sólido y contorno */
+.hero-buttons-static {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn-hero-static {
+  background-color: var(--color-secondary);
+  color: var(--color-white);
+  padding: 0.8rem 1.8rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  transition:
+    background-color var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.btn-hero-static:hover {
+  background-color: var(--color-primary);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+}
+
+.btn-hero-outline-static {
+  background-color: transparent;
+  border: 2px solid var(--color-white);
+  color: var(--color-white);
+}
+
+.btn-hero-outline-static:hover {
+  background-color: var(--color-white);
+  color: var(--color-tertiary);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  1) CONTENEDORES 3D Y TIPOGRAFÍA PARA LA SECCIÓN DE BIENVENIDA (Home)
+────────────────────────────────────────────────────────────────────────────*/
+.main-home-static {
+  background-color: var(--color-light-bg);
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+/* Bienvenida: contenedor con sombra sutil 3D */
+.bienvenida-static {
+  background-color: var(--color-white);
+  max-width: 800px;
+  margin: 0 auto 3rem auto;
+  padding: 2.5rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transform: translateY(0);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bienvenida-static:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+}
+
+/* Títulos y párrafos dentro de bienvenida */
+.section-title-static {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 2.25rem;
+  color: var(--color-secondary);
+  margin-bottom: 1rem;
+  letter-spacing: 1px;
+}
+
+.section-text-static {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1rem;
+  color: var(--color-text);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  2) DESTACADOS CON EFECTO 3D (Home)
+────────────────────────────────────────────────────────────────────────────*/
+.destacados-static {
+  background-color: var(--color-alt-bg);
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.destacados-static .section-title-static {
+  margin-bottom: 2rem;
+}
+
+.destacados-grid-static {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.card-destacado-static {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  background-color: var(--color-white);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none;
+}
+
+.card-destacado-static:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.15);
+}
+
+.card-img-static {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+}
+
+.card-text-static {
+  padding: 1rem;
+  text-align: left;
+}
+
+.card-text-static h4 {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1.3rem;
+  color: var(--color-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.card-text-static p {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1rem;
+  color: var(--color-text);
   font-weight: 500;
 }
 
-.formulario input,
-.formulario textarea {
-  padding: 0.75rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.formulario button {
-  align-self: flex-start;
-}
-
 /*───────────────────────────────────────────────────────────────────────────
-  MENÚ TIENDA
+  3) PROMOCIONES EN CONTENEDORES 3D (Home)
 ────────────────────────────────────────────────────────────────────────────*/
-#menudetienda {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
+.promociones-static {
+  background-color: var(--color-white);
+  max-width: 800px;
+  margin: 3rem auto 3rem auto;
+  padding: 2.5rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transform: translateY(0);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.resumen-orden {
-  flex: 1 1 300px;
-  border: 1px solid #ddd;
-  padding: 1rem;
-  border-radius: 8px;
-  background-color: #fafafa;
+.promociones-static:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
 }
 
-.resumen-orden h3 {
-  margin-top: 0;
-  color: var(--color-primary);
-  border-bottom: 2px solid #eee;
-  padding-bottom: 0.5rem;
+.promociones-static .section-title-static {
+  margin-bottom: 1.5rem;
 }
 
-.resumen-orden ul {
+.promo-list-static {
   list-style: none;
   padding: 0;
-  margin: 1rem 0;
+  margin: 0;
 }
 
-.resumen-orden li {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.75rem;
-}
-
-.resumen-orden button {
-  padding: 0.25rem 0.5rem;
-}
-
-#menudetienda main + section {
-  flex: 2 1 600px;
-}
-
-.item {
+.promo-item-static {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem;
-  border-bottom: 1px dotted #eee;
-  transition: background-color var(--transition-fast);
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1.05rem;
+  color: var(--color-secondary);
 }
 
-.item:hover {
-  background-color: #f9f9f9;
-  border-radius: 5px;
-}
-
-.flavor,
-.dessert {
-  flex-grow: 1;
-  margin-right: 1rem;
-  font-weight: bold;
+.promo-icon-static {
+  font-size: 1.6rem;
   color: var(--color-primary);
 }
 
-.price {
-  margin-right: 1rem;
-  font-weight: bold;
-  color: var(--color-primary);
+.promo-text-static {
+  color: var(--color-text);
 }
 
 /*───────────────────────────────────────────────────────────────────────────
-  CATÁLOGO DE PRODUCTOS
+  4) FOOTER ESTILIZADO (Home)
 ────────────────────────────────────────────────────────────────────────────*/
-.categoria-productos {
-  background-color: var(--color-alt-bg);
-  padding: 4rem 2rem;
+.footer-static {
+  background-color: var(--color-tertiary);
+  color: var(--color-white);
+  text-align: center;
+  padding: 2rem 0;
+  margin-top: auto;
 }
 
-.categoria-productos h3 {
+.footer-static p {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 0.9rem;
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  5) RESPONSIVE PARA HOME, Tienda Física y MenuTienda
+────────────────────────────────────────────────────────────────────────────*/
+@media (max-width: 768px) {
+  .hero-title-static {
+    font-size: 2.5rem;
+  }
+  .hero-subtitle-static {
+    font-size: 1rem;
+  }
+  .hero-buttons-static {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .btn-hero-static {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  .section-title-static {
+    font-size: 1.9rem;
+  }
+  .section-text-static {
+    font-size: 0.95rem;
+  }
+  .destacados-grid-static {
+    grid-template-columns: 1fr;
+  }
+  .card-img-static {
+    height: 200px;
+  }
+
+  /* Tienda Física */
+  .tienda-header {
+    height: 50vh;
+  }
+  .tienda-title {
+    font-size: 2.5rem;
+  }
+  .tienda-subtitle {
+    font-size: 1rem;
+  }
+
+  /* General de categorías */
+  .categoria-title {
+    font-size: 1.5rem;
+  }
+  .productos-grid {
+    grid-template-columns: 1fr; /* Una columna en móviles */
+  }
+
+  /* Nav responsive */
+  nav.navbar {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  TIENDA FÍSICA – ESTILOS MODERNOS
+────────────────────────────────────────────────────────────────────────────*/
+
+/* 1) CONTAINER GENERAL */
+.tienda-fisica-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--color-light-bg);
+}
+
+/* 2) NAVBAR Tienda Física (ya definido arriba) */
+
+/* 3) HEADER con FONDO (Tienda Física) */
+.tienda-header {
+  position: relative;
+  height: 60vh;
+  background: url("/images/tienda fisica.png") center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.tienda-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(43, 27, 17, 0.65);
+  z-index: 1;
+}
+
+.tienda-header-text {
+  position: relative;
+  z-index: 2;
   text-align: center;
-  margin-bottom: 2rem;
+  padding: 0 1rem;
+}
+
+.tienda-title {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 3rem;
+  color: #f6f2ee;
+  letter-spacing: 2px;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.75);
+}
+
+.tienda-subtitle {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1.1rem;
+  color: #f0e7de;
+  line-height: 1.5;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.75);
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  4) SECCIÓN DE PRODUCTOS (Cards 3D) Tienda Física
+────────────────────────────────────────────────────────────────────────────*/
+.tienda-main {
+  padding: 3rem 1rem;
+  flex: 1;
+}
+
+.categoria-title {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1.75rem;
+  color: var(--color-secondary);
+  text-align: center;
+  margin-bottom: 1.5rem;
 }
 
 .productos-grid {
@@ -265,118 +624,1535 @@ h2 {
   margin: 0 auto;
 }
 
-.producto-card {
+.tienda-card {
   background-color: var(--color-white);
-  border: 1px solid #ddd;
-  border-radius: 12px;
+  border: 1px solid #e0ddd9;
+  border-radius: 8px;
   overflow: hidden;
-  transition: box-shadow var(--transition-fast);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.producto-card:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+.tienda-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
 }
 
-.producto-card img {
+/* Imagen del producto */
+.tienda-img {
   width: 100%;
   height: 180px;
   object-fit: cover;
 }
 
-.producto-card h4 {
+/* Nombre y precio */
+.producto-nombre {
   margin: 1rem;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1.25rem;
   color: var(--color-primary);
+  text-align: center;
 }
 
-.producto-card .precio {
-  margin: 0 1rem 1rem;
-  font-weight: bold;
+.precio-card {
+  margin: 0 1rem 1rem 1rem;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-secondary);
+  text-align: center;
 }
 
-.producto-card .button {
-  margin: 0 1rem 1rem;
+/* Botón “Agregar al Carrito” */
+.btn-agregar {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  margin: 1rem;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+  transition:
+    background-color var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.btn-agregar:hover {
+  background-color: var(--color-secondary);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
 }
 
 /*───────────────────────────────────────────────────────────────────────────
-  MODAL DE IMAGEN EN TIENDA FÍSICA
+  5) MODAL DE PEDIDO (ABSOLUTO) Tienda Física
 ────────────────────────────────────────────────────────────────────────────*/
-.imagen-pequena {
+.tienda-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  max-width: 300px;
-  margin: 1rem auto;
-  display: block;
-  cursor: pointer;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
 }
 
-.modal {
-  display: none;
-  position: fixed;
+.tienda-modal-content {
+  background-color: var(--color-white);
+  border-radius: 8px;
+  padding: 1.5rem;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+}
+
+.modal-title {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--color-secondary);
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.modal-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+}
+
+.modal-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  font-family: 'Segoe UI', sans-serif;
+  color: var(--color-text);
+}
+
+.modal-cantidad-controls button {
+  background: none;
+  border: 1px solid var(--color-secondary);
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  font-size: 1rem;
+  color: var(--color-secondary);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.modal-cantidad-controls button:hover {
+  background-color: var(--color-secondary);
+  color: var(--color-white);
+}
+
+.modal-total {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: right;
+  margin-bottom: 1rem;
+}
+
+.tienda-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.tienda-btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+}
+
+.tienda-btn-primary:hover {
+  background-color: var(--color-secondary);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
+}
+
+.tienda-btn-success {
+  background-color: #28a745;
+  color: var(--color-white);
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+}
+
+.tienda-btn-success:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
+}
+
+.tienda-btn-secondary {
+  background-color: transparent;
+  border: 1px solid var(--color-secondary);
+  color: var(--color-secondary);
+}
+
+.tienda-btn-secondary:hover {
+  background-color: var(--color-secondary);
+  color: var(--color-white);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.10);
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  6) FOOTER Tienda Física
+────────────────────────────────────────────────────────────────────────────*/
+.tienda-footer {
+  background-color: var(--color-secondary);
+  color: var(--color-white);
+  text-align: center;
+  padding: 2rem 0;
+  margin-top: auto;
+}
+
+.footer-static p {
+  margin: 0.2rem 0;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 0.9rem;
+}
+
+.footer-link {
+  color: var(--color-white);
+  text-decoration: underline;
+}
+
+.footer-link:hover {
+  color: var(--color-alt-bg);
+  text-decoration: none;
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  2) SECCIÓN BIENVENIDA
+────────────────────────────────────────────────────────────────────────────*/
+.main-home {
+  flex-grow: 1;
+}
+
+.bienvenida-home {
+  text-align: center;
+  padding: 5rem 2rem;
+  background-color: var(--color-light-bg);
+}
+.section-title-home {
+  font-size: 2.5rem;
+  color: var(--color-secondary);
+  margin-bottom: 1.25rem;
+}
+.section-text-home {
+  max-width: 700px;
+  margin: 0 auto 2.5rem auto;
+  color: var(--color-text);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  opacity: 0;
+  animation: fadeIn 1.2s ease-out both 0.6s;
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  3) SECCIÓN DESTACADOS (CARDS INTERACTIVAS)
+────────────────────────────────────────────────────────────────────────────*/
+.destacados-home {
+  background-color: var(--color-alt-bg);
+  padding: 5rem 2rem;
+  text-align: center;
+}
+.destacados-home .section-title-home {
+  margin-bottom: 2.5rem;
+}
+.destacados-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 2rem auto 0 auto;
+}
+
+.card-destacado {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  text-decoration: none;
+}
+.card-destacado:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 8px 26px rgba(0,0,0,0.25);
+}
+
+.card-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+
+.card-overlay {
+  position: absolute;
   inset: 0;
-  background-color: rgba(0,0,0,0.85);
+  background: linear-gradient(180deg, rgba(0,0,0,0.0), rgba(0,0,0,0.5));
+  transition: background 0.3s ease;
+  z-index: 1;
+}
+.card-destacado:hover .card-overlay {
+  background: linear-gradient(180deg, rgba(0,0,0,0.2), rgba(0,0,0,0.7));
+}
+
+.card-text {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  color: var(--color-white);
+  z-index: 2;
+  text-align: left;
+}
+.card-text h4 {
+  margin: 0;
+  font-size: 1.3rem;
+  letter-spacing: 1px;
+}
+.card-text p {
+  margin: 0.2rem 0 0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  4) SECCIÓN PROMOCIONES
+────────────────────────────────────────────────────────────────────────────*/
+.promociones-home {
+  padding: 5rem 2rem;
+  text-align: center;
+  background-color: var(--color-light-bg);
+}
+.promociones-home .section-title-home {
+  margin-bottom: 2rem;
+}
+.promo-list-home {
+  list-style: none;
+  max-width: 700px;
+  margin: 1.5rem auto 3rem auto;
+  padding: 0;
+}
+.promo-item-home {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  font-size: 1.2rem;
+  color: var(--color-secondary);
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+.promo-item-home:hover {
+  transform: scale(1.05);
+  color: var(--color-primary);
+}
+.promo-icon-home {
+  font-size: 1.8rem;
+  color: var(--color-primary);
+}
+.promo-text-home {
+  text-align: left;
+  line-height: 1.4;
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  5) FOOTER HOME
+────────────────────────────────────────────────────────────────────────────*/
+.footer-home {
+  background-color: var(--color-tertiary);
+  color: var(--color-white);
+  text-align: center;
+  padding: 2rem 0;
+  margin-top: auto;
+}
+.footer-home p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  RESPONSIVE PARA HOME
+────────────────────────────────────────────────────────────────────────────*/
+@media (max-width: 768px) {
+  .hero-title-home {
+    font-size: 2.8rem;
+  }
+  .hero-subtitle-home {
+    font-size: 1.1rem;
+  }
+  .hero-buttons-home {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .btn-hero-home {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 0.75rem;
+  }
+  .promo-item-home {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .promo-icon-home {
+    font-size: 1.5rem;
+  }
+  .destacados-grid {
+    grid-template-columns: 1fr;
+  }
+  .card-img {
+    height: 200px;
+  }
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  Parte de styles.css para SobreNosotros (INICIA)
+────────────────────────────────────────────────────────────────────────────*/
+
+/*───────────────────────────────────────────────────────────────────────────
+  VARIABLES DE COLOR OSCUROS Y TIPOGRAFÍA
+────────────────────────────────────────────────────────────────────────────*/
+:root {
+  --color-primary: #3b1f15;   /* Café profundo */
+  --color-secondary: #d4a373; /* Terracota suave */
+  --color-tertiary: #805e4e;  /* Café medio */
+  --color-light-bg: #f0ebe1;  /* Crema suave */
+  --color-alt-bg: #fdf7f1;    /* Crema muy suave */
+  --color-dark-bg: #2a1e1c;   /* Fondo oscuro para secciones */
+  --color-text: #2b1d17;      /* Texto oscuro */
+  --color-white: #ffffff;
+  --font-main: 'Segoe UI', sans-serif;
+  --transition-fast: 0.2s ease-in-out;
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  1) BARRA PRINCIPAL (HOME/MENU/PAGAR)
+────────────────────────────────────────────────────────────────────────────*/
+.main-nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: var(--color-dark-bg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 2rem;
+  z-index: 300;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+.main-nav .logo {
+  font-family: var(--font-main);
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--color-white);
+  letter-spacing: 2px;
+}
+.main-nav-list {
+  list-style: none;
+  display: flex;
+  gap: 1.75rem;
+}
+.main-nav-link {
+  color: var(--color-white);
+  text-decoration: none;
+  font-weight: 600;
+  position: relative;
+  transition: color var(--transition-fast);
+}
+.main-nav-link:hover {
+  color: var(--color-secondary);
+}
+.main-nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background-color: var(--color-secondary);
+  transition: width 0.3s ease;
+}
+.main-nav-link:hover::after {
+  width: 100%;
+}
+
+/* Añadimos un padding-top al body para no ocultar contenido detrás de la barra */
+body {
+  padding-top: 56px; /* Altura aproximada de .main-nav */
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  2) HERO/BANNER PRINCIPAL CON FONDO OSCURO Y CONTRASTE
+────────────────────────────────────────────────────────────────────────────*/
+.hero-home {
+  position: relative;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
-.modal-contenido {
-  max-width: 80%;
-  max-height: 80%;
-  border-radius: 8px;
-}
-
-.cerrar {
+.dark-bg .custom-background {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: 2rem;
+  inset: 0;
+  background: url("/images/fondo-sobre.jpg") center/cover no-repeat;
+  background-attachment: fixed;
+  filter: brightness(0.6);
+  z-index: 0;
+}
+.hero-overlay-dark {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(27, 18, 15, 0.7);
+  z-index: 1;
+}
+.hero-content-home {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 1rem;
   color: var(--color-white);
+  animation: fadeInScale 1s ease-out both;
+}
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.hero-title-home {
+  font-size: 3.5rem;
+  font-weight: bold;
+  letter-spacing: 3px;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+}
+.hero-subtitle-home {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+}
+.hero-scroll-btn {
+  background: transparent;
+  border: 2px solid var(--color-white);
+  color: var(--color-white);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 2rem;
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-scroll-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
 }
 
 /*───────────────────────────────────────────────────────────────────────────
-  TABLAS DE PEDIDOS
+  3) BARRA SECUNDARIA DE SECCIONES
 ────────────────────────────────────────────────────────────────────────────*/
-table {
+.page-nav {
+  position: sticky;
+  top: 56px; /* Justo debajo de .main-nav */
+  background-color: var(--color-alt-bg);
+  padding: 0.5rem 2rem;
+  display: flex;
+  justify-content: center;
+  z-index: 250;
+  transition: background-color 0.3s ease;
+}
+.page-nav-scrolled {
+  background-color: var(--color-secondary);
+}
+.page-nav-list {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+.page-nav-link {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-dark-bg);
+  cursor: pointer;
+  position: relative;
+  padding: 0.25rem 0;
+  transition: color var(--transition-fast);
+}
+.page-nav-scrolled .page-nav-link {
+  color: var(--color-white);
+}
+.page-nav-link:hover,
+.page-nav-link:focus {
+  color: var(--color-primary);
+}
+.page-nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background-color: var(--color-primary);
+  transition: width 0.3s ease;
+}
+.page-nav-link:hover::after {
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
 }
 
-thead th {
+/*───────────────────────────────────────────────────────────────────────────
+  4) SECCIONES VARIADAS CON COLORES MÁS INTENSOS
+────────────────────────────────────────────────────────────────────────────*/
+/* Valores: fondo oscuro */
+.seccion-valores {
+  background-color: var(--color-dark-bg);
+  color: var(--color-white);
+}
+.section-title {
+  font-size: 2.75rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+}
+.section-title::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background-color: var(--color-secondary);
+}
+.destacados-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  justify-items: center;
+}
+.card-valores {
+  background-color: var(--color-secondary);
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  max-width: 300px;
+}
+.card-valores:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.3);
+}
+.card-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+.card-title {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+.card-desc {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* Historia: fondo claro suave */
+.seccion-historia {
+  background-color: var(--color-alt-bg);
+  color: var(--color-text);
+}
+.texto-historia {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+.texto-historia p {
+  margin-bottom: 1.5rem;
+}
+
+/* Equipo: fondo terciario */
+.seccion-equipo {
+  background-color: var(--color-tertiary);
+  color: var(--color-white);
+}
+.equipo-carousel {
+  display: flex;
+  overflow-x: auto;
+  gap: 2rem;
+  padding: 2.5rem 0;
+  scroll-snap-type: x mandatory;
+}
+.card-equipo {
+  background-color: var(--color-white);
+  color: var(--color-dark-bg);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  flex: 0 0 280px;
+  scroll-snap-align: start;
+}
+.card-equipo:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.3);
+}
+.equipo-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+.equipo-text {
+  padding: 1.25rem;
+}
+.equipo-name {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.equipo-role {
+  font-size: 1rem;
+  font-style: italic;
+  margin-bottom: 0.75rem;
+  color: var(--color-secondary);
+}
+.equipo-desc {
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Visítanos: fondo claro */
+.seccion-visitanos {
+  background-color: var(--color-light-bg);
+  color: var(--color-text);
+}
+.cta-container {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+  background-color: var(--color-white);
+  border-radius: 12px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+.cta-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+.btn-visitanos {
   background-color: var(--color-primary);
   color: var(--color-white);
-  padding: 0.75rem;
-  text-align: left;
+  padding: 0.85rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
 }
-
-tbody td {
-  padding: 0.75rem;
-  border-bottom: 1px solid #eee;
+.btn-visitanos:hover {
+  background-color: var(--color-secondary);
+  transform: translateY(-3px);
 }
 
 /*───────────────────────────────────────────────────────────────────────────
-  FOOTER
+  5) BOTÓN “SCROLL TO TOP”
 ────────────────────────────────────────────────────────────────────────────*/
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: var(--color-secondary);
+  color: var(--color-white);
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 500;
+}
+.scroll-to-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+.scroll-to-top:hover {
+  transform: scale(1.1);
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  6) FOOTER CON ESTILO ELEGANTE
+────────────────────────────────────────────────────────────────────────────*/
+.footer-home {
+  background-color: var(--color-dark-bg);
+  color: var(--color-white);
+  text-align: center;
+  padding: 3rem 0;
+  margin-top: 2rem;
+}
+.footer-content p {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+}
+.social-links {
+  margin-top: 1rem;
+}
+.social-links a {
+  color: var(--color-secondary);
+  text-decoration: none;
+  margin: 0 0.5rem;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+.social-links a:hover {
+  color: var(--color-white);
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  UTILIDADES Y RESET DE SECCIONES
+────────────────────────────────────────────────────────────────────────────*/
+.fade-in-section {
+  opacity: 1; /* Eliminamos ocultamiento inicial */
+  transform: none;
+  visibility: visible;
+}
+.light-bg {
+  background-color: var(--color-light-bg);
+}
+.dark-bg {
+  background-color: var(--color-dark-bg);
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  Parte para styles.css: Checkout Moderno (INICIA)
+────────────────────────────────────────────────────────────────────────────*/
+
+/*───────────────────────────────────────────────────────────────────────────
+  VARIABLES DE COLOR Y TIPOGRAFÍA
+────────────────────────────────────────────────────────────────────────────*/
+:root {
+  --color-primary: #4b2720;   /* Marrón profundo */
+  --color-secondary: #D2A679; /* Caramelo suave */
+  --color-accent: #A36730;    /* Tonalidad café medio */
+  --color-light-bg: #F5F1EC;  /* Crema muy suave */
+  --color-white: #FFFFFF;
+  --color-text-dark: #2B1D17; /* Texto oscuro */
+  --color-text-light: #FFFFFF;
+  --font-main: 'Segoe UI', sans-serif;
+  --transition-fast: 0.2s ease-in-out;
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  RESET / ESTILOS BASE
+────────────────────────────────────────────────────────────────────────────*/
+body, html {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-light-bg);
+  font-family: var(--font-main);
+  color: var(--color-text-dark);
+  scroll-behavior: smooth;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  1) NAVBAR (OSCURA - HEREDADA)
+────────────────────────────────────────────────────────────────────────────*/
+.navbar {
+  background-color: var(--color-primary);
+  padding: 0.75rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 300;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+.navbar .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--color-white);
+  letter-spacing: 2px;
+}
+.nav-list {
+  list-style: none;
+  display: flex;
+  gap: 1.75rem;
+}
+.nav-link {
+  color: var(--color-white);
+  font-weight: 600;
+  position: relative;
+  transition: color var(--transition-fast);
+}
+.nav-link:hover {
+  color: var(--color-secondary);
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background-color: var(--color-secondary);
+  transition: width 0.3s ease;
+}
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  2) CONTENEDOR PRINCIPAL DE CHECKOUT
+────────────────────────────────────────────────────────────────────────────*/
+.checkout-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  padding: 4rem 2rem;
+  flex: 1;
+}
+@media (max-width: 900px) {
+  .checkout-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  2.A) RESUMEN DEL CARRITO (Tarjeta elevada y limpia)
+────────────────────────────────────────────────────────────────────────────*/
+.summary-card {
+  background-color: var(--color-white);
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+.summary-title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-primary);
+  text-align: center;
+  position: relative;
+}
+.summary-title::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background-color: var(--color-secondary);
+}
+.empty-cart {
+  text-align: center;
+  font-size: 1rem;
+  color: var(--color-text-dark);
+}
+.summary-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 1rem;
+}
+.summary-item:last-child {
+  border-bottom: none;
+}
+.item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.item-name {
+  font-weight: 600;
+  color: var(--color-primary);
+}
+.item-size {
+  font-size: 0.9rem;
+  color: var(--color-text-dark);
+  margin-left: 0.25rem;
+}
+.item-toppings {
+  font-size: 0.9rem;
+  color: var(--color-accent);
+}
+.item-qty-price {
+  text-align: right;
+}
+.item-qty {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--color-text-dark);
+}
+.item-subtotal {
+  font-weight: 600;
+  color: var(--color-secondary);
+}
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ccc;
+}
+.total-amount {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--color-primary);
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  2.B) FORMULARIO DE PAGO (Degradado suave + Sombras)
+────────────────────────────────────────────────────────────────────────────*/
+.payment-card {
+  background: linear-gradient(135deg, var(--color-light-bg), #eee6dc);
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+.payment-title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-secondary);
+  text-align: center;
+  position: relative;
+}
+.payment-title::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background-color: var(--color-primary);
+}
+.payment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.form-group label {
+  font-weight: 600;
+  color: var(--color-text-dark);
+}
+.form-group input {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+.form-group input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 5px rgba(75, 39, 32, 0.3);
+}
+.form-grid-two {
+  display: flex;
+  gap: 1rem;
+}
+.form-group.small {
+  flex: 1;
+}
+
+/* Botón “Pagar” con efecto */
+.btn-pay {
+  margin-top: 1.5rem;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  padding: 0.85rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  transition: background-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+.btn-pay:hover {
+  background-color: var(--color-secondary);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.3);
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  3) MODAL DE ÉXITO (Estilo limpio + centrado)
+────────────────────────────────────────────────────────────────────────────*/
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+}
+.modal-content {
+  background-color: var(--color-white);
+  border-radius: 12px;
+  padding: 2rem 2.5rem;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+.modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--color-primary);
+  font-size: 1.75rem;
+}
+.modal-content p {
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  color: var(--color-text-dark);
+}
+.btn-modal {
+  background-color: var(--color-secondary);
+  color: var(--color-white);
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+.btn-modal:hover {
+  background-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  4) FOOTER (HEREDADO)
+────────────────────────────────────────────────────────────────────────────*/
+.footer-home {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  text-align: center;
+  padding: 2.5rem 0;
+  margin-top: 2rem;
+}
+.footer-content p {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  UTILIDADES
+────────────────────────────────────────────────────────────────────────────*/
+.light-bg {
+  background-color: var(--color-light-bg);
+}
+
+/* Responsive: en pantallas pequeñas, apilar columnas */
+@media (max-width: 900px) {
+  .checkout-container {
+    grid-template-columns: 1fr;
+  }
+  .summary-card,
+  .payment-card {
+    padding: 2rem 1rem;
+  }
+}
+/*───────────────────────────────────────────────────────────────────────────
+  7) MENU TIENDA – REGLAS ESPECÍFICAS Y CORRECCIONES FINALES
+────────────────────────────────────────────────────────────────────────────*/
+
+/* 0) OCULTAR BARRAS INDESEADAS DENTRO DE MenuTienda */
+.menu-tienda-container .main-nav,
+.menu-tienda-container .page-nav,
+.menu-tienda-container nav.tienda-navbar {
+  display: none !important;
+}
+
+/* 1) CONTENEDOR GENERAL DE MenuTienda */
+.menu-tienda-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--color-light-bg);
+}
+
+/*───────────────────────────────────────────────────────────────────────────
+  BANNER INTERACTIVO (Hover Expandible)
+────────────────────────────────────────────────────────────────────────────*/
+
+/* 1) Contenedor interactivo: por defecto colapsado en altura */
+.interactive-banner {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;             /* Ajusta al ancho máximo de tu contenedor */
+  margin: 0 auto;
+  background-color: #f9f4ef;
+  border-left: 4px solid var(--color-primary);
+  overflow: hidden;
+  transition: max-height 0.4s ease, box-shadow 0.4s ease;
+  cursor: pointer;
+  max-height: 3rem;               /* Solo deja ver la línea con el título */
+  border-radius: 0 0 8px 8px;     /* Esquinas inferiores redondeadas */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 2) Cuando el usuario pasa el cursor sobre el banner, se expande */
+.interactive-banner:hover {
+  max-height: 300px;              /* Suficiente para mostrar todo el ul (ajusta si es necesario) */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* 3) CABECERA del banner (siempre visible) */
+.interactive-banner .banner-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background-color: #f9f4ef;
+}
+
+/* 3.A) Título */
+.interactive-banner .banner-header strong {
+  font-size: 1.1rem;
+  color: var(--color-secondary);
+}
+
+/* 3.B) Ícono que indica “desplegar” */
+.interactive-banner .banner-icon {
+  font-size: 1rem;
+  color: var(--color-primary);
+  transition: transform 0.3s ease;
+}
+
+/* 4) Rotar el ícono cuando está expandido */
+.interactive-banner:hover .banner-icon {
+  transform: rotate(180deg);
+}
+
+/* 5) DETALLES del banner (lista de promociones) */
+.interactive-banner .banner-details {
+  padding: 0 1rem 1rem 1rem;
+  background-color: #f9f4ef;
+}
+
+/* 5.A) Ocultar el contenido con clipping, 
+       ya que .interactive-banner controla su altura con max-height */
+.interactive-banner .banner-details ul {
+  list-style: disc inside;
+  margin: 0.5rem 0 0 1rem;
+  padding-left: 0;
+}
+
+/* 6) Estilos de cada combo */
+.interactive-banner .combo-note {
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+.interactive-banner .combo-sublist {
+  list-style-type: circle;
+  margin-top: 0.25rem;
+  margin-left: 1.5rem;
+  color: var(--color-text);
+  font-size: 0.9rem;
+}
+
+/* 7) Ajustes de responsivo: si quieres que quepa mejor en móvil, usa menos altura */
+@media (max-width: 768px) {
+  .interactive-banner {
+    max-height: 2.5rem;
+  }
+  .interactive-banner:hover {
+    max-height: 400px; /* Más espacio para el ul en móvil */
+  }
+  .interactive-banner .banner-details {
+    padding: 0 0.75rem 0.75rem 0.75rem;
+  }
+}
+
+/* 3) NAVBAR ÚNICO (Se mantiene sólo <nav class="navbar"> ) */
+.menu-tienda-container .navbar {
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 0.75rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+  position: sticky;
+  top: 0;
+  z-index: 150;
+}
+.menu-tienda-container .navbar .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--color-secondary);
+}
+.menu-tienda-container .navbar .nav-list {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+.menu-tienda-container .navbar .nav-list li {
+  position: relative;
+}
+.menu-tienda-container .navbar .nav-list a {
+  text-decoration: none;
+  color: var(--color-secondary) !important;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+.menu-tienda-container .navbar .nav-list a:hover,
+.menu-tienda-container .navbar .nav-list a.active {
+  color: var(--color-primary) !important;
+  transform: translateY(-2px);
+}
+.menu-tienda-container .navbar .ordenar-btn {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+  font-size: 0.9rem;
+}
+.menu-tienda-container .navbar .ordenar-btn:hover {
+  background-color: var(--color-secondary);
+  transform: translateY(-1px);
+}
+
+/* 4) REMOVER EL EXTRA PADDING-TOP DE .seccion-blanca */
+.menu-tienda-container .seccion-blanca {
+  padding-top: 0;
+  padding-bottom: 0;
+  overflow: visible;
+}
+
+/* 5) CATEGORÍAS y GRILLA DE PRODUCTOS */
+.menu-tienda-container .categoria-productos {
+  background-color: var(--color-alt-bg);
+  padding: 2rem 0;
+  margin-bottom: 3rem;
+  overflow: visible;
+}
+.menu-tienda-container .categoria-title {
+  font-size: 1.75rem !important;
+  margin-bottom: 1rem;
+  color: var(--color-secondary);
+  text-align: center;
+}
+.menu-tienda-container .productos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* 6) TARJETA DE PRODUCTO en MenuTienda */
+.menu-tienda-container .producto-card {
+  background-color: var(--color-white);
+  border: 1px solid #e0ddd9;
+  border-radius: 8px;
+  overflow: visible;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.menu-tienda-container .producto-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.menu-tienda-container .producto-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+.menu-tienda-container .producto-card h4 {
+  margin: 1rem;
+  color: var(--color-primary);
+  font-size: 1.25rem;
+}
+.menu-tienda-container .item-desc {
+  margin: 0 1rem 0.5rem 1rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+.menu-tienda-container .item-ing {
+  margin: 0 1rem 1rem 1rem;
+  font-size: 0.85rem;
+  color: #444;
+}
+.menu-tienda-container .formulario {
+  padding: 1rem;
+  border-top: 1px solid #e0ddd9;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.menu-tienda-container .formulario label {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.menu-tienda-container .formulario select,
+.menu-tienda-container .formulario input[type="number"] {
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.menu-tienda-container .topping-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+.menu-tienda-container .total-note {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  text-align: right;
+  color: #333;
+}
+
+/* 7) MODAL DEL CARRITO en MenuTienda */
+.menu-tienda-container .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+.menu-tienda-container .modal-content {
+  background-color: var(--color-white);
+  border-radius: 8px;
+  padding: 1.5rem;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.menu-tienda-container .modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--color-primary);
+}
+.menu-tienda-container .modal-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.menu-tienda-container .modal-content li {
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+  color: #333;
+}
+.menu-tienda-container .modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.menu-tienda-container .modal-actions button {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+.menu-tienda-container .modal-actions button:hover {
+  background-color: var(--color-secondary);
+}
+
+/* 8) FOOTER GENERAL (MenuTienda y demás) */
+.menu-tienda-container footer,
 footer {
   background-color: var(--color-secondary);
   color: var(--color-white);
   text-align: center;
-  padding: 2rem;
-  margin-top: 3rem;
+  padding: 2rem 0;
+  margin-top: 2rem;
+}
+.menu-tienda-container footer p,
+footer p {
+  margin: 0;
+  font-size: 0.9rem;
 }
 
 /*───────────────────────────────────────────────────────────────────────────
-  RESPONSIVE
+  RESPONSIVE PARA MenuTienda (y en general)
 ────────────────────────────────────────────────────────────────────────────*/
 @media (max-width: 768px) {
-  nav {
-    flex-direction: column;
-    gap: 1rem;
+  .menu-tienda-container .productos-grid {
+    grid-template-columns: 1fr;
   }
-  .resumen-orden {
-    order: 2;
+  .menu-tienda-container .categoria-title {
+    font-size: 1.5rem;
   }
-  #menudetienda main + section {
-    order: 1;
+  .menu-tienda-container .producto-card {
+    margin: 0 auto;
+    max-width: 100%;
+  }
+  .menu-tienda-container .formulario {
+    padding: 0.75rem;
   }
 }

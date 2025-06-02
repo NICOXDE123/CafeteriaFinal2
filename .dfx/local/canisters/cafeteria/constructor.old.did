@@ -1,0 +1,12 @@
+type Item = 
+ record {
+   cantidad: nat;
+   id: nat;
+   nombre: text;
+   precio: nat;
+ };
+service : {
+  agregarPedido: (nombre: text, cantidad: nat, precio: nat) -> (nat);
+  limpiarPedidos: () -> (bool);
+  listarPedidos: () -> (vec Item) query;
+}

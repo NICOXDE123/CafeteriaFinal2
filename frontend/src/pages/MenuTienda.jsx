@@ -1,46 +1,12 @@
 // frontend/src/pages/MenuTienda.jsx
-import React, { useState, useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import "../assets/styles.css";
 
-// -------------------------------------------------------------
-// 1) BANNER INTERACTIVO (HOVER EXPANDIBLE)
-// -------------------------------------------------------------
-const DISCOUNT_NOTE = (
-  <div className="interactive-banner">
-    <div className="banner-header">
-      <strong>¡Ahorra con nuestras promociones!</strong>
-      <span className="banner-icon">▼</span>
-    </div>
-    <div className="banner-details">
-      <ul>
-        <li className="combo-note">
-          “Dulce Pareja”:
-          <ul className="combo-sublist">
-            <li>Latte + Cheesecake → 7% de descuento</li>
-          </ul>
-        </li>
-        <li className="combo-note">
-          “Desayuno Completo”:
-          <ul className="combo-sublist">
-            <li>Tostada Francesa + Espresso → Muffin gratis</li>
-          </ul>
-        </li>
-        <li className="combo-note">
-          “Energía Extra”:
-          <ul className="combo-sublist">
-            <li>Cold Brew + Bagel → Brownie gratis</li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </div>
-);
+import { CartContext } from "../contexts/CartContext";
 
-// -------------------------------------------------------------
-// 2) LISTA COMPLETA DEL MENÚ
-// -------------------------------------------------------------
-const MENU_ITEMS = [
+// ——— Datos completos del menú ———
+export const MENU_ITEMS = [
   // ----- CAFÉS (1–15) -----
   {
     id: 1,
@@ -444,56 +410,31 @@ const MENU_ITEMS = [
   },
 ];
 
-// -------------------------------------------------------------
-// 3) COMPONENTE PRINCIPAL: MenuTienda
-// -------------------------------------------------------------
 export default function MenuTienda() {
   const navigate = useNavigate();
-  const [cart, setCart] = useState([]);
+  const { cartItems, addToCart, updateQty, total } = useContext(CartContext);
   const [modalOpen, setModalOpen] = useState(false);
-  const [total, setTotal] = useState(0);
 
-  // Recalcular total cada vez que cambia el carrito
-  useEffect(() => {
-    const suma = cart.reduce((acc, item) => acc + item.subtotal, 0);
-    setTotal(suma);
-  }, [cart]);
-
-  // Añadir al carrito
-  const addToCart = (item, opts) => {
+  // — Agrega un producto al carrito del contexto —
+  const handleAdd = (item, opts) => {
     const { size, toppings, qty } = opts;
     const priceSize = item.basePrice + size.extra;
     const priceTops = toppings.reduce((sum, t) => sum + t.price, 0);
     const unitPrice = priceSize + priceTops;
     const subtotal = unitPrice * qty;
 
-    setCart((prev) => [
-      ...prev,
-      {
-        key: Date.now(),
-        name: item.name,
-        size: size.label,
-        toppings: toppings.map((t) => t.name),
-        qty,
-        unitPrice,
-        subtotal,
-      },
-    ]);
+    const nuevoItem = {
+      name: item.name,
+      size: size.label,
+      toppings: toppings.map((t) => t.name),
+      qty,
+      unitPrice,
+      subtotal,
+    };
+    addToCart(nuevoItem);
   };
 
-  // Actualizar cantidad en carrito
-  const updateQty = (key, delta) =>
-    setCart((prev) =>
-      prev
-        .map((it) =>
-          it.key === key
-            ? { ...it, qty: it.qty + delta, subtotal: it.unitPrice * (it.qty + delta) }
-            : it
-        )
-        .filter((it) => it.qty > 0)
-    );
-
-  // Ir a la página de pago
+  // — Checkout: cierra modal y va a /pagar —
   const handleCheckout = () => {
     setModalOpen(false);
     navigate("/pagar");
@@ -501,9 +442,7 @@ export default function MenuTienda() {
 
   return (
     <div className="menu-tienda-container">
-      {/* ─────────────────────────────────────────────────────────────────────
-          3.A) BANNER DE DESCUENTOS FIJADO A LA DERECHA
-         ───────────────────────────────────────────────────────────────────── */}
+      {/** Banner fijo a la derecha **/}
       <div
         className="banner-fixed"
         style={{
@@ -520,84 +459,106 @@ export default function MenuTienda() {
           maxHeight: "60vh",
         }}
       >
-        {DISCOUNT_NOTE}
+        <div className="interactive-banner">
+          <div className="banner-header">
+            <strong>¡Ahorra con nuestras promociones!</strong>
+            <span className="banner-icon">▼</span>
+          </div>
+          <div className="banner-details">
+            <ul>
+              <li className="combo-note">
+                “Dulce Pareja”:
+                <ul className="combo-sublist">
+                  <li>Latte + Cheesecake → 7% de descuento</li>
+                </ul>
+              </li>
+              <li className="combo-note">
+                “Desayuno Completo”:
+                <ul className="combo-sublist">
+                  <li>Tostada Francesa + Espresso → Muffin gratis</li>
+                </ul>
+              </li>
+              <li className="combo-note">
+                “Energía Extra”:
+                <ul className="combo-sublist">
+                  <li>Cold Brew + Bagel → Brownie gratis</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
 
-      {/* ─────────────────────────────────────────────────────────────────────
-          3.B) NAVBAR ÚNICO
-         ───────────────────────────────────────────────────────────────────── */}
-      <nav className="navbar">
-        <div className="logo">☕ Café Aroma</div>
-        <ul className="nav-list">
-          <li>
-            <NavLink to="/">Inicio</NavLink>
-          </li>
-          <li>
-            <NavLink to="/tiendafisica">Tienda Física</NavLink>
-          </li>
-        </ul>
-        <button className="ordenar-btn" onClick={() => setModalOpen(true)}>
-          Carrito ({cart.length}) — ${total.toFixed(2)}
-        </button>
-      </nav>
-
-      {/* ─────────────────────────────────────────────────────────────────────
-          3.C) CONTENIDO PRINCIPAL
-             Primero Postres, luego Café (como pidió)
-         ───────────────────────────────────────────────────────────────────── */}
+      {/** Contenido principal: Postres → Café → Desayunos → Comida Ligera **/}
       <main
         className="contenedor"
         style={{ paddingTop: "1rem", paddingBottom: "2rem" }}
       >
+        {/* 1) Postres */}
         <section className="categoria-productos">
           <h3 className="categoria-title">Postres</h3>
           <div className="productos-grid">
             {MENU_ITEMS.filter((i) => i.category === "Postre").map((item) => (
-              <ProductCard key={item.id} item={item} onAdd={addToCart} />
+              <ProductCard key={item.id} item={item} onAdd={handleAdd} />
             ))}
           </div>
         </section>
 
+        {/* 2) Café */}
         <section className="categoria-productos">
           <h3 className="categoria-title">Café</h3>
           <div className="productos-grid">
             {MENU_ITEMS.filter((i) => i.category === "Café").map((item) => (
-              <ProductCard key={item.id} item={item} onAdd={addToCart} />
+              <ProductCard key={item.id} item={item} onAdd={handleAdd} />
             ))}
           </div>
         </section>
 
+        {/* 3) Desayunos */}
         <section className="categoria-productos">
           <h3 className="categoria-title">Desayunos</h3>
           <div className="productos-grid">
             {MENU_ITEMS.filter((i) => i.category === "Desayuno").map((item) => (
-              <ProductCard key={item.id} item={item} onAdd={addToCart} />
+              <ProductCard key={item.id} item={item} onAdd={handleAdd} />
             ))}
           </div>
         </section>
 
+        {/* 4) Comida Ligera */}
         <section className="categoria-productos">
           <h3 className="categoria-title">Comida Ligera</h3>
           <div className="productos-grid">
             {MENU_ITEMS.filter((i) => i.category === "Comida Ligera").map((item) => (
-              <ProductCard key={item.id} item={item} onAdd={addToCart} />
+              <ProductCard key={item.id} item={item} onAdd={handleAdd} />
             ))}
           </div>
         </section>
       </main>
 
-      {/* ─────────────────────────────────────────────────────────────────────
-          3.D) MODAL DEL CARRITO
-         ───────────────────────────────────────────────────────────────────── */}
+      {/** Botón flotante del carrito — aparecerá en la esquina inferior derecha **/}
+      <button
+        className="btn-hero-static btn-carrito tienda-carrito-btn"
+        onClick={() => setModalOpen(true)}
+        style={{
+          position: "fixed",
+          right: "1rem",
+          bottom: "1rem",
+          zIndex: 200,
+        }}
+      >
+        🛒 Carrito ({cartItems.length}) — ${total.toFixed(2)}
+      </button>
+
+      {/** Modal del carrito **/}
       {modalOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
             <h3>Tu Carrito</h3>
-            {cart.length === 0 ? (
+            {cartItems.length === 0 ? (
               <p>No has agregado nada todavía.</p>
             ) : (
               <ul>
-                {cart.map((it) => (
+                {cartItems.map((it) => (
                   <li key={it.key} style={{ marginBottom: "0.75rem" }}>
                     <strong>{it.name}</strong> ({it.size})
                     <br />
@@ -630,9 +591,7 @@ export default function MenuTienda() {
         </div>
       )}
 
-      {/* ─────────────────────────────────────────────────────────────────────
-          3.E) FOOTER
-         ───────────────────────────────────────────────────────────────────── */}
+      {/** Footer básico **/}
       <footer>
         <p>© 2025 Café Aroma. Todos los derechos reservados.</p>
       </footer>
@@ -640,42 +599,34 @@ export default function MenuTienda() {
   );
 }
 
-// -------------------------------------------------------------
-// 4) COMPONENTE AUXILIAR: ProductCard
-// -------------------------------------------------------------
+// ——— Componente “ProductCard” ———
 function ProductCard({ item, onAdd }) {
   const [size, setSize] = useState(item.sizes[0]);
   const [toppings, setToppings] = useState([]);
   const [qty, setQty] = useState(1);
 
-  // Alterna (agrega/quita) un topping
   const toggleTopping = (tog) =>
     setToppings((prev) =>
       prev.includes(tog) ? prev.filter((x) => x !== tog) : [...prev, tog]
     );
 
-  // Calcula precios dinámicos
   const base = item.basePrice + size.extra;
   const tops = toppings.reduce((sum, t) => sum + t.price, 0);
   const unitPrice = base + tops;
 
   return (
     <div className="producto-card">
-      {/* Imagen */}
       <img className="icon-anim" src={item.image} alt={item.name} />
 
-      {/* Título y descripción */}
       <h4>{item.name}</h4>
       <p className="item-desc">{item.description}</p>
-      {Array.isArray(item.ingredients) && item.ingredients.length > 0 && (
+      {item.ingredients && item.ingredients.length > 0 && (
         <p className="item-ing">
           <strong>Ingredientes:</strong> {item.ingredients.join(", ")}
         </p>
       )}
 
-      {/* Formulario de opciones (size, toppings, cantidad) */}
       <div className="formulario">
-        {/* Tamaño */}
         <label>Tamaño:</label>
         <select
           value={size.label}
@@ -690,8 +641,7 @@ function ProductCard({ item, onAdd }) {
           ))}
         </select>
 
-        {/* Toppings (si existen) */}
-        {Array.isArray(item.toppings) && item.toppings.length > 0 && (
+        {item.toppings && item.toppings.length > 0 && (
           <>
             <label>Toppings:</label>
             {item.toppings.map((t) => (
@@ -710,7 +660,6 @@ function ProductCard({ item, onAdd }) {
           </>
         )}
 
-        {/* Cantidad */}
         <label>Cantidad:</label>
         <input
           type="number"
@@ -719,12 +668,10 @@ function ProductCard({ item, onAdd }) {
           onChange={(e) => setQty(Math.max(1, +e.target.value))}
         />
 
-        {/* Precio unidad */}
         <p className="total-note">
           <strong>Precio unidad:</strong> ${unitPrice.toFixed(2)}
         </p>
 
-        {/* Botón “Añadir al Carrito” */}
         <button
           className="ordenar-btn"
           onClick={() => onAdd(item, { size, toppings, qty })}

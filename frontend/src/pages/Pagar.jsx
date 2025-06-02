@@ -1,12 +1,15 @@
 // frontend/src/pages/Pagar.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "../assets/styles.css";
 
+import { CartContext } from "../contexts/CartContext";
+
 export default function Pagar() {
   const navigate = useNavigate();
+  const { cartItems, total, clearCart } = useContext(CartContext);
 
-  // ===== Estado para datos de pago =====
+  // ===== Estados para datos de pago =====
   const [nombre, setNombre] = useState("");
   const [numero, setNumero] = useState("");
   const [mes, setMes] = useState("");
@@ -14,39 +17,17 @@ export default function Pagar() {
   const [cvv, setCvv] = useState("");
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 
-  // ===== Leer carrito desde localStorage =====
-  const [cart, setCart] = useState([]);
-  const [total, setTotal] = useState(0);
-
-  useEffect(() => {
-    const stored = localStorage.getItem("cafearoma_cart");
-    if (stored) {
-      try {
-        setCart(JSON.parse(stored));
-      } catch {
-        setCart([]);
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    const suma = cart.reduce((acc, item) => acc + item.subtotal, 0);
-    setTotal(suma);
-  }, [cart]);
-
   // ===== Función para simular el pago =====
   const handlePago = (e) => {
     e.preventDefault();
-
-    // Validación básica
     if (!nombre.trim() || !numero.trim() || !mes || !anio || !cvv.trim()) {
       alert("Por favor, completa todos los campos del formulario.");
       return;
     }
 
-    // Simulación: mostrar modal y limpiar localStorage
+    // Simulación: mostrar modal de éxito y limpiar carrito del contexto
     setPaymentSuccess(true);
-    localStorage.removeItem("cafearoma_cart");
+    clearCart();
   };
 
   // ===== Cerrar modal y redirigir a Menú =====
@@ -57,9 +38,7 @@ export default function Pagar() {
 
   return (
     <div className="pagar-container">
-      {/* ─────────────────────────────────────────────────────────────────────
-          1) BARRA SUPERIOR: HOME / MENÚ / TIENDA FÍSICA
-      ────────────────────────────────────────────────────────────────────── */}
+      {/** Navbar general (home / menú / tienda física) **/}
       <nav className="navbar">
         <div className="logo">☕ Café Aroma</div>
         <ul className="nav-list">
@@ -81,20 +60,16 @@ export default function Pagar() {
         </ul>
       </nav>
 
-      {/* ─────────────────────────────────────────────────────────────────────
-          2) GRID PRINCIPAL: RESUMEN DEL CARRITO + FORMULARIO DE PAGO
-      ────────────────────────────────────────────────────────────────────── */}
+      {/** Contenido: Resumen carrito + Formulario de pago **/}
       <main className="contenedor checkout-container">
-        {/* ─────────────────────────────────────────────────────────────
-            2.A) RESUMEN DEL CARRITO
-        ────────────────────────────────────────────────────────────── */}
+        {/* 2.A) Resumen del carrito */}
         <section className="summary-card">
           <h2 className="summary-title">Tu Pedido</h2>
-          {cart.length === 0 ? (
+          {cartItems.length === 0 ? (
             <p className="empty-cart">Tu carrito está vacío.</p>
           ) : (
             <div className="summary-list">
-              {cart.map((item) => (
+              {cartItems.map((item) => (
                 <div key={item.key} className="summary-item">
                   <div className="item-info">
                     <span className="item-name">{item.name}</span>
@@ -121,9 +96,7 @@ export default function Pagar() {
           )}
         </section>
 
-        {/* ─────────────────────────────────────────────────────────────
-            2.B) FORMULARIO DE PAGO
-        ────────────────────────────────────────────────────────────── */}
+        {/* 2.B) Formulario de pago */}
         <section className="payment-card">
           <h2 className="payment-title">Datos de Pago</h2>
           <form onSubmit={handlePago} className="payment-form">
@@ -209,18 +182,14 @@ export default function Pagar() {
         </section>
       </main>
 
-      {/* ─────────────────────────────────────────────────────────────────────
-          3) FOOTER
-      ────────────────────────────────────────────────────────────────────── */}
+      {/** Footer **/}
       <footer className="footer-home">
         <div className="contenedor footer-content">
           <p>© 2025 Café Aroma. Todos los derechos reservados.</p>
         </div>
       </footer>
 
-      {/* ─────────────────────────────────────────────────────────────────────
-          4) MODAL DE ÉXITO
-      ────────────────────────────────────────────────────────────────────── */}
+      {/** Modal de éxito **/}
       {paymentSuccess && (
         <div className="modal-overlay">
           <div className="modal-content">

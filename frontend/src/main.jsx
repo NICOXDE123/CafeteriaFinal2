@@ -1,17 +1,20 @@
 // frontend/src/main.jsx
-import { StrictMode } from 'react';
-import { createRoot }  from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 
-import './index.css';         // Base Vite
-import './assets/styles.css'; // Tus estilos globales
+import "./index.css";
+import "./assets/styles.css";
 
-import App from './App.jsx';
+import App from "./App.jsx";
+import { CartProvider } from "./contexts/CartContext";
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
+createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <CartProvider>
+        <App />
+      </CartProvider>
     </BrowserRouter>
-  </StrictMode>
+  </React.StrictMode>
 );
